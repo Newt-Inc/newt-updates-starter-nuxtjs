@@ -1,12 +1,19 @@
 import { resolve } from 'path'
 
 export default {
+  publicRuntimeConfig: {
+    projectUid: 'プロジェクトUID',
+    appUid: 'AppUID',
+    token: 'CDN APIトークン',
+    pageLimit: 10,
+  },
+
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'simple-blog-starter-nuxtjs-javascript',
+    title: 'Updates',
     htmlAttrs: {
       lang: 'en'
     },
@@ -51,10 +58,4 @@ export default {
     utils: resolve(__dirname, './utils'),
   },
 
-  publicRuntimeConfig: {
-    projectUid: '{プロジェクトUID}',
-    appUid: '{AppUID}',
-    token: '{CDN APIトークン}',
-    pageLimit: 12,
-  }
 }

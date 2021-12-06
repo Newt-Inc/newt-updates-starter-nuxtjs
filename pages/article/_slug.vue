@@ -2,11 +2,17 @@
   <main class="Container">
     <article v-if="article" class="Article">
       <div class="Article_Header">
+        <ul class="Article_Tags">
+          <li v-for="category in article.categories" :key="category._id" :style="category.colorCode ? `background: ${category.colorCode};` : ``" class="Article_Tag _color3">
+            <span>{{category.emoji}}</span>
+            <strong>{{category.name}}</strong>
+          </li>
+        </ul>
         <h1 class="Article_Title">{{article.title}}</h1>
         <div class="Article_Data">
           <div class="Article_Avatar">
-            <template v-if="this.article.author && this.article.author.profileImage">
-              <img :src="this.article.author.profileImage.src" alt="" width="32" height="32" />
+            <template v-if="article.author && article.author.profileImage">
+              <img :src="article.author.profileImage.src" alt="" width="32" height="32" />
             </template>
             <template v-else>
               <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24" fill="#CCCCCC"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M12 6c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2m0 10c2.7 0 5.8 1.29 6 2H6c.23-.72 3.31-2 6-2m0-12C9.79 4 8 5.79 8 8s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 10c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
@@ -18,21 +24,7 @@
       </div>
       <!-- eslint-disable-next-line vue/no-v-html -->
       <div class="Article_Body" v-html="article.body"></div>
-      <aside class="Author">
-        <div class="Author_Avatar">
-          <template v-if="this.article.author && this.article.author.profileImage">
-            <img :src="this.article.author.profileImage.src" alt="" width="48" height="48" />
-          </template>
-            <template v-else>
-              <svg xmlns="http://www.w3.org/2000/svg" width="28px" height="28px" viewBox="0 0 24 24" fill="#CCCCCC"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M12 6c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2m0 10c2.7 0 5.8 1.29 6 2H6c.23-.72 3.31-2 6-2m0-12C9.79 4 8 5.79 8 8s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 10c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-            </template>
-        </div>
-        <div class="Author_Text">
-          <div class="Author_Name">{{authorName}}</div>
-          <!-- eslint-disable-next-line vue/no-v-html -->
-          <div class="Author_Description" v-html="authorSelfIntroduction"></div>
-        </div>
-      </aside>
+      <!-- <Feedback /> -->
     </article>
   </main>
 </template>
@@ -73,6 +65,28 @@ export default {
 }
 .Article_Header {
   margin: 0 0 24px 0;  
+}
+.Article_Tags {
+  margin: 0 0 8px 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+}
+.Article_Tag {
+  height: 22px;
+  border-radius: 11px;
+  background: #f8f8f8;
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  margin: 0 4px 4px 0;
+}
+.Article_Tag > span {
+  font-size: 1.2rem;
+  margin: 0 4px 0 0;
+}
+.Article_Tag > strong {
+  font-size: 1.2rem;
 }
 .Article_Title {
   font-size: 2.4rem;

@@ -1,6 +1,6 @@
-# simple-blog-starter-nuxtjs-javascript
+# updates-starter-nuxtjs
 
-[Newt](https://www.newt.so/) を利用したシンプルなブログ
+[Newt](https://www.newt.so/) を利用したアップデートノート
 
 ## 開発をはじめる
 
@@ -9,12 +9,12 @@
 1. プロジェクトを作成します
     - プロジェクトUIDを控えておきましょう。プロジェクトUIDは 管理画面URL（ `https://newt.app/{プロジェクトUID}` ） もしくは プロジェクト設定 > 一般 から確認できます。
 2. Appを作成します
-    - Appテンプレートから作成する場合、**Blog**を選択し「このテンプレートを追加」をクリックしてください。
+    - Appテンプレートから作成する場合、**Updates**を選択し「このテンプレートを追加」をクリックしてください。
     - スクラッチで作成する場合は、App名とAppUIDを設定して次のステップに進みます。
     - AppUIDを控えておきましょう。AppUIDは管理画面URL（ `https://newt.app/{プロジェクトUID}/app/{AppUID}` ） または App設定 > 一般 から確認できます。
 3. App設定から、Articleモデル, Categoryモデル, Authorモデルを作成します
     - Appテンプレートから作成した場合、すでにモデルが作成されているためこのステップは飛ばします
-    - スクラッチで作成した場合は、[Newtプロジェクトの構成](https://github.com/Newt-Inc/newt-simple-blog-starter-nuxtjs#Newtプロジェクトの構成)に従ってAppとモデルを作成します
+    - スクラッチで作成した場合は、[Newtプロジェクトの構成](https://github.com/Newt-Inc/newt-updates-starter-nuxtjs#Newtプロジェクトの構成)に従ってAppとモデルを作成します
 4. プロジェクト設定 > APIキー からCDN APIトークンを作成します
     - プロジェクト設定 > APIキー よりCDN APIトークンを作成します
     - 複製マークをクリックしてトークンをコピーしましょう
@@ -27,9 +27,9 @@
 export default {
   // ...省略
   publicRuntimeConfig: {
-    projectUid: '{プロジェクトUID}',
-    appUid: '{AppUID}',
-    token: '{CDN APIトークン}',
+    projectUid: 'プロジェクトUID',
+    appUid: 'AppUID',
+    token: 'CDN APIトークン',
     pageLimit: 12,
   }
 }
@@ -94,6 +94,8 @@ $ yarn start
 | --- | --- | --- | --- |
 | name | 名前 | テキスト | 必須フィールド, このフィールドをタイトルに使う |
 | slug | スラッグ | テキスト | 必須フィールド |
+| emoji | スラッグ | テキスト |  |
+| colorCode | スラッグ | テキスト |  |
 
 ### Author（`uid: author`）モデル
 
