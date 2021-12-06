@@ -81,7 +81,6 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 6px 0 0;
   font-size: 1.8rem;
   flex-shrink: 0;
 }
