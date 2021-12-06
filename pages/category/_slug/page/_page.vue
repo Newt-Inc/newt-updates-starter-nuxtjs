@@ -4,7 +4,7 @@
     <div class="Articles">
       <Dropdown :categories="categories" :selected="selected" />
       <ArticleCard v-for="article in articles" :key="article._id" :article="article" />
-      <Pagination :total="total" :current="1" :base-path="`/category/${selected}`" />
+      <Pagination :total="total" :current="pageNumber" :base-path="`/category/${selected}`" />
     </div>
   </main>
 </template>
@@ -28,7 +28,8 @@ export default {
       articles,
       total,
       categories,
-      selected: params.slug || ''
+      selected: params.slug || '',
+      pageNumber,
     }
   },
   data() {
