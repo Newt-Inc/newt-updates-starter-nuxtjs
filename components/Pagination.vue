@@ -73,6 +73,14 @@ export default {
   background: none;
   cursor: pointer;
 }
+.Pagination_Button._current {
+  border: 1px solid #333;
+  background: #333;
+  color: #fff;
+}
+.Pagination_Button._current:hover {
+  background: #333;
+}
 .Pagination_Button:hover {
   background: #f8f8f8;
 }
