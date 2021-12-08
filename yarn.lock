@@ -5618,10 +5618,10 @@ neo-async@^2.5.0, neo-async@^2.6.1, neo-async@^2.6.2:
   resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.6.2.tgz#b4aafb93e3aeb2d8174ca53cf163ab7d7308305f"
   integrity sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==
 
-newt-client-js@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/newt-client-js/-/newt-client-js-1.0.2.tgz#256e48d1e15fd5ecb1244585a4987f81270f3c16"
-  integrity sha512-brSvTMs5aY4YCtGibk3WSohum/d8gBgfi3ScYWkHL6gPlPqdLGMTEIN9v1HdhDW6JxjUkQPM+6PlA+VyHAGtQQ==
+newt-client-js@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/newt-client-js/-/newt-client-js-1.1.0.tgz#4c9b925f1c146085e71667afd46f144c82d7b7b7"
+  integrity sha512-rLp9Yn7D184GAtkBfrI+OEyFJHEEONx7RnYQHNugZeOFxs5HWvXpTayd6hqxgKe9cinedaWRFeXhyfNFEN4+EA==
   dependencies:
     axios "^0.21.1"
     qs "^6.10.1"

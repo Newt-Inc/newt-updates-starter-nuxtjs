@@ -1,13 +1,19 @@
 <template>
   <header class="Header">
     <NuxtLink to="/" class="Title">
-      <span v-if="icon" class="Title_Icon">{{icon}}</span>
-      <h1 v-if="isHome" class="Title_Text">{{title}}</h1>
-      <div v-else class="Title_Text">{{title}}</div>
+      <span v-if="icon" class="Title_Icon">{{ icon }}</span>
+      <h1 v-if="useH1" class="Title_Text">{{ title }}</h1>
+      <div v-else class="Title_Text">{{ title }}</div>
     </NuxtLink>
     <div class="Search">
       <button type="button" class="Search_Button" @click="focusInput">
-        <svg width="14" height="14" xmlns="http://www.w3.org/2000/svg"><path d="M9.3890873 1.6109127c1.81744 1.81743998 2.0970461 4.59036739.8388184 6.7018035l3.3116969 3.3126728c.3547755.3547755.3257954.9589604-.0647289 1.3494847-.3626297.3626297-.9094871.4135198-1.2698126.1348865l-.0796721-.0701576-3.22015474-3.21985629C6.7465078 11.5258295 3.60410194 11.3822765 1.6109127 9.3890873c-2.1478836-2.14788361-2.1478836-5.63029099 0-7.7781746 2.14788361-2.1478836 5.63029099-2.1478836 7.7781746 0zM2.95984943 2.95984943c-1.40288642 1.40288642-1.40288642 3.67741472 0 5.08030114 1.40288642 1.40288642 3.67741472 1.40288642 5.08030114 0 1.40288642-1.40288642 1.40288642-3.67741472 0-5.08030114-1.40288642-1.40288642-3.67741472-1.40288642-5.08030114 0z" fill="#333" fill-rule="nonzero" /></svg>
+        <svg width="14" height="14" xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M9.3890873 1.6109127c1.81744 1.81743998 2.0970461 4.59036739.8388184 6.7018035l3.3116969 3.3126728c.3547755.3547755.3257954.9589604-.0647289 1.3494847-.3626297.3626297-.9094871.4135198-1.2698126.1348865l-.0796721-.0701576-3.22015474-3.21985629C6.7465078 11.5258295 3.60410194 11.3822765 1.6109127 9.3890873c-2.1478836-2.14788361-2.1478836-5.63029099 0-7.7781746 2.14788361-2.1478836 5.63029099-2.1478836 7.7781746 0zM2.95984943 2.95984943c-1.40288642 1.40288642-1.40288642 3.67741472 0 5.08030114 1.40288642 1.40288642 3.67741472 1.40288642 5.08030114 0 1.40288642-1.40288642 1.40288642-3.67741472 0-5.08030114-1.40288642-1.40288642-3.67741472-1.40288642-5.08030114 0z"
+            fill="#333"
+            fill-rule="nonzero"
+          />
+        </svg>
       </button>
       <form action="/search">
         <div class="Search_Input">
@@ -29,27 +35,27 @@ export default {
   props: {
     title: {
       type: String,
-      default: 'Blog'
+      default: 'Blog',
     },
     icon: {
       type: String,
-      default: ''
+      default: '',
     },
-    isHome: {
+    useH1: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
   },
   data() {
     return {
-      searchText: this.$route.query.q || ''
+      searchText: this.$route.query.q || '',
     }
   },
   methods: {
     focusInput() {
-      this.$refs.target.focus();
-    }
-  }
+      this.$refs.target.focus()
+    },
+  },
 }
 </script>
 
@@ -65,7 +71,7 @@ export default {
   z-index: 10;
   min-width: 0;
   flex-shrink: 0;
-  box-shadow: 0 0 0 1px rgba(0,0,0,.1);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
 }
 .Title {
   display: flex;
@@ -95,20 +101,20 @@ export default {
   width: 34px;
   height: 34px;
   margin: 0 6px 0 0;
-  transition: background .2s;
+  transition: background 0.2s;
   border-radius: 4px;
   position: relative;
   background: none;
   flex-shrink: 0;
 }
 .Title_Button:hover {
-  background: #F0F0F0;
+  background: #f0f0f0;
 }
 .Title_Button:active {
   background: none;
   transition: none;
 }
- .Title_Button > svg {
+.Title_Button > svg {
   position: absolute;
   left: 13px;
   top: 11px;
@@ -149,13 +155,13 @@ export default {
   border: none;
   background: none;
   border-radius: 4px;
-  transition: background .2s;
+  transition: background 0.2s;
   cursor: pointer;
   position: relative;
   z-index: 0;
 }
 .Search_Button:hover {
-  background: #F0F0F0;
+  background: #f0f0f0;
 }
 .Search_Button:active {
   background: none;

@@ -6,14 +6,14 @@ export const getCategories = async (config) => {
     const client = createClient({
       projectUid: config.projectUid,
       token: config.token,
-      apiType: 'cdn',
+      apiType: config.apiType,
     })
     const result = await client.getContents({
-      appUid:config.appUid,
+      appUid: config.appUid,
       modelUid: CATEGORY_MODEL_NAME,
       query: {
-        depth: 1
-      }
+        depth: 1,
+      },
     })
     return {
       ...result,

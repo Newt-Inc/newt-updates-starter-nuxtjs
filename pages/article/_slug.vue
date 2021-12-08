@@ -1,49 +1,80 @@
 <template>
-  <main class="Container">
-    <article v-if="article" class="Article">
-      <div class="Article_Header">
-        <ul class="Article_Tags">
-          <li v-for="category in article.categories" :key="category._id" :style="category.colorCode ? `background: ${category.colorCode};` : ``" class="Article_Tag _color3">
-            <span>{{category.emoji}}</span>
-            <strong>{{category.name}}</strong>
-          </li>
-        </ul>
-        <h1 class="Article_Title">{{article.title}}</h1>
-        <div class="Article_Data">
-          <div class="Article_Avatar">
-            <template v-if="article.author && article.author.profileImage">
-              <img :src="article.author.profileImage.src" alt="" width="32" height="32" />
-            </template>
-            <template v-else>
-              <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24" fill="#CCCCCC"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M12 6c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2m0 10c2.7 0 5.8 1.29 6 2H6c.23-.72 3.31-2 6-2m0-12C9.79 4 8 5.79 8 8s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 10c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-            </template>
+  <Wrapper :app="app" :use-h1="false">
+    <main class="Container">
+      <article v-if="article" class="Article">
+        <div class="Article_Header">
+          <ul class="Article_Tags">
+            <li
+              v-for="category in article.categories"
+              :key="category._id"
+              :style="
+                category.colorCode ? `background: ${category.colorCode};` : ``
+              "
+              class="Article_Tag _color3"
+            >
+              <span>{{ category.emoji }}</span>
+              <strong>{{ category.name }}</strong>
+            </li>
+          </ul>
+          <h1 class="Article_Title">{{ article.title }}</h1>
+          <div class="Article_Data">
+            <div class="Article_Avatar">
+              <template v-if="article.author && article.author.profileImage">
+                <img
+                  :src="article.author.profileImage.src"
+                  alt=""
+                  width="32"
+                  height="32"
+                />
+              </template>
+              <template v-else>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20px"
+                  height="20px"
+                  viewBox="0 0 24 24"
+                  fill="#CCCCCC"
+                >
+                  <path d="M0 0h24v24H0V0z" fill="none" />
+                  <path
+                    d="M12 6c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2m0 10c2.7 0 5.8 1.29 6 2H6c.23-.72 3.31-2 6-2m0-12C9.79 4 8 5.79 8 8s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 10c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
+                  />
+                </svg>
+              </template>
+            </div>
+            <div class="Article_AuthorName">{{ authorName }}</div>
+            <time :datetime="publishDateForAttr" class="Article_Date">{{
+              publishDate
+            }}</time>
           </div>
-          <div class="Article_AuthorName">{{authorName}}</div>
-          <time :datetime="publishDateForAttr" class="Article_Date">{{publishDate}}</time>
         </div>
-      </div>
-      <!-- eslint-disable-next-line vue/no-v-html -->
-      <div class="Article_Body" v-html="article.body"></div>
-      <!-- <Feedback /> -->
-    </article>
-  </main>
+        <!-- eslint-disable-next-line vue/no-v-html -->
+        <div class="Article_Body" v-html="article.body"></div>
+        <!-- <Feedback /> -->
+      </article>
+    </main>
+  </Wrapper>
 </template>
 
 <script>
 import { getArticleBySlug } from 'api/article'
+import { getApp } from 'api/app'
 import { formatDate } from 'utils/date'
 
 export default {
-  layout: 'sub',
   async asyncData({ $config, params }) {
     const article = await getArticleBySlug($config, params.slug)
+    const app = await getApp($config)
     return {
-      article
+      article,
+      app,
     }
   },
   computed: {
     publishDate() {
-      return this.article._sys.createdAt ? formatDate(this.article._sys.createdAt) : ''
+      return this.article._sys.createdAt
+        ? formatDate(this.article._sys.createdAt)
+        : ''
     },
     publishDateForAttr() {
       return this.publishDate.replace(/\//g, '-')
@@ -52,9 +83,14 @@ export default {
       return (this.article.author && this.article.author.fullName) || 'NO NAME'
     },
     authorSelfIntroduction() {
-      return (this.article.author && this.article.author.introduction && this.article.author.introduction.html) || ''
-    }
-  }
+      return (
+        (this.article.author &&
+          this.article.author.introduction &&
+          this.article.author.introduction.html) ||
+        ''
+      )
+    },
+  },
 }
 </script>
 
@@ -64,7 +100,7 @@ export default {
   margin: 0 auto;
 }
 .Article_Header {
-  margin: 0 0 24px 0;  
+  margin: 0 0 24px 0;
 }
 .Article_Tags {
   margin: 0 0 8px 0;
@@ -106,7 +142,7 @@ export default {
   overflow: hidden;
   margin: 0 12px 0 0;
   flex-shrink: 0;
-  background: rgba(0,0,0,0.05);
+  background: rgba(0, 0, 0, 0.05);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -146,7 +182,7 @@ export default {
   height: 40px;
   background: #fff;
   border-radius: 20px;
-  box-shadow: 0 0 0 1px rgba(0,0,0,.06), 0 3px 10px -8px rgba(0,0,0,1);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.06), 0 3px 10px -8px rgba(0, 0, 0, 1);
   position: relative;
   cursor: pointer;
 }
@@ -154,24 +190,24 @@ export default {
   outline: none;
 }
 .Fav_Button:focus::after {
-  content: "";
-  border: 2px solid #005FCC;
+  content: '';
+  border: 2px solid #005fcc;
   position: absolute;
   left: 0;
   top: 0;
   width: 36px;
   height: 36px;
   border-radius: 20px;
-  z-index: 0;  
+  z-index: 0;
 }
 .Fav._on .Fav_Button:focus::after {
-  border: 2px solid #E0245E;
+  border: 2px solid #e0245e;
 }
 .Fav_Button:hover > svg {
   fill: #888;
 }
 .Fav_Button:active {
-  transform: scale(.96);
+  transform: scale(0.96);
 }
 .Fav_Button > svg {
   position: absolute;
@@ -180,8 +216,8 @@ export default {
   height: 18px;
   width: 16px;
   display: block;
-  fill: #CCC;
-  transition: fill .2s;
+  fill: #ccc;
+  transition: fill 0.2s;
 }
 .Fav > em {
   font-style: normal;
@@ -190,11 +226,11 @@ export default {
   margin: 0 0 0 12px;
 }
 .Fav._on .Fav_Button > svg {
-  fill: #E0245E;
+  fill: #e0245e;
   transition: none;
 }
 .Fav._on > em {
-  color: #E0245E;
+  color: #e0245e;
 }
 .Author {
   border: 1px solid #e5e5e5;
@@ -210,7 +246,7 @@ export default {
   overflow: hidden;
   margin: 0 16px 0 0;
   flex-shrink: 0;
-  background: rgba(0,0,0,0.05);
+  background: rgba(0, 0, 0, 0.05);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -243,7 +279,7 @@ export default {
     padding: 60px;
   }
   .Article_Header {
-    margin: 0 0 48px 0;  
+    margin: 0 0 48px 0;
   }
 }
 </style>

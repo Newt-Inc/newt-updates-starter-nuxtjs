@@ -1,9 +1,5 @@
 <template>
-  <div class="Wrapper">
-    <Header title="Updates" icon="📣" />
-    <Nuxt />
-    <Badge />
-  </div>
+  <Nuxt />
 </template>
 
 <script>
@@ -21,7 +17,8 @@ body {
   font-size: 1.4rem;
   line-height: 1.8;
   color: #333;
-  font-family: 'Segoe UI Emoji', 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+  font-family: 'Segoe UI Emoji', 'Helvetica Neue', Arial,
+    'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
   -webkit-text-size-adjust: 100%;
   height: 100%;
   overflow-wrap: break-word;
@@ -31,22 +28,10 @@ body {
   height: 100%;
 }
 a {
-  color: #006CDC;
+  color: #006cdc;
   text-decoration: underline;
 }
 a:hover {
   text-decoration: none;
-}
-</style>
-
-<style scoped>
-.Wrapper {
-  min-height: 100%;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-}
-@media all and (-ms-high-contrast:none){
-  *::-ms-backdrop, .Wrapper { height: 100%; } /* IE11 */
 }
 </style>
