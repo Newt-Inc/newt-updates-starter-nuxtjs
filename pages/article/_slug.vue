@@ -12,7 +12,9 @@
               "
               class="Article_Tag _color3"
             >
-              <span>{{ category.emoji }}</span>
+              <span v-if="category.emoji && category.emoji.value">{{
+                category.emoji.value
+              }}</span>
               <strong>{{ category.name }}</strong>
             </li>
           </ul>

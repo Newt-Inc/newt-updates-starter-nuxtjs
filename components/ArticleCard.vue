@@ -2,23 +2,52 @@
   <article class="Article">
     <NuxtLink :to="`/article/${article.slug}`" class="Article_Link">
       <ul class="Article_Tags">
-        <li v-for="category in article.categories" :key="category._id" :style="category.colorCode ? `background: ${category.colorCode};` : ``" class="Article_Tag">
-          <span>{{category.emoji}}</span>
-          <strong>{{category.name}}</strong>
+        <li
+          v-for="category in article.categories"
+          :key="category._id"
+          :style="
+            category.colorCode ? `background: ${category.colorCode};` : ``
+          "
+          class="Article_Tag"
+        >
+          <span v-if="category.emoji && category.emoji.value">{{
+            category.emoji.value
+          }}</span>
+          <strong>{{ category.name }}</strong>
         </li>
       </ul>
-      <h2 class="Article_Title">{{article.title}}</h2>
+      <h2 class="Article_Title">{{ article.title }}</h2>
       <div class="Article_Data">
         <div class="Article_Avatar">
           <template v-if="article.author && article.author.profileImage">
-            <img :src="article.author.profileImage.src" alt="" width="32" height="32" />
+            <img
+              :src="article.author.profileImage.src"
+              alt=""
+              width="32"
+              height="32"
+            />
           </template>
           <template v-else>
-            <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24" fill="#CCCCCC"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M12 6c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2m0 10c2.7 0 5.8 1.29 6 2H6c.23-.72 3.31-2 6-2m0-12C9.79 4 8 5.79 8 8s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 10c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20px"
+              height="20px"
+              viewBox="0 0 24 24"
+              fill="#CCCCCC"
+            >
+              <path d="M0 0h24v24H0V0z" fill="none" />
+              <path
+                d="M12 6c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2m0 10c2.7 0 5.8 1.29 6 2H6c.23-.72 3.31-2 6-2m0-12C9.79 4 8 5.79 8 8s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 10c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
+              />
+            </svg>
           </template>
         </div>
-        <div class="Article_AuthorName">{{authorName}}</div>
-        <time :datetime="formatDate(article._sys.createdAt).replace(/\//gm, '-')" class="Article_Date">{{formatDate(article._sys.createdAt)}}</time>
+        <div class="Article_AuthorName">{{ authorName }}</div>
+        <time
+          :datetime="formatDate(article._sys.createdAt).replace(/\//gm, '-')"
+          class="Article_Date"
+          >{{ formatDate(article._sys.createdAt) }}</time
+        >
       </div>
     </NuxtLink>
   </article>
@@ -31,26 +60,26 @@ export default {
   props: {
     article: {
       type: Object,
-      default: null
-    }
+      default: null,
+    },
   },
   computed: {
     authorName() {
       return (this.article.author && this.article.author.fullName) || 'NO NAME'
-    }
+    },
   },
   methods: {
     formatDate(dateStr) {
       return dateStr ? formatDate(dateStr) : ''
-    }
-  }
+    },
+  },
 }
 </script>
 
 <style scoped>
 .Article {
   border: 1px solid #e5e5e5;
-  box-shadow: 0 2px 2px 0 rgba(0,0,0,.05);
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.05);
   border-radius: 4px;
   margin: 0 0 16px 0;
 }
@@ -61,7 +90,7 @@ export default {
   color: #333;
   text-decoration: none;
   border-radius: 4px;
-  transition: background .2s;
+  transition: background 0.2s;
   background: #fff;
 }
 .Article_Link:hover {
@@ -109,7 +138,7 @@ export default {
   overflow: hidden;
   margin: 0 12px 0 0;
   flex-shrink: 0;
-  background: rgba(0,0,0,0.05);
+  background: rgba(0, 0, 0, 0.05);
   display: flex;
   align-items: center;
   justify-content: center;
