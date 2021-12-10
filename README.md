@@ -1,6 +1,7 @@
 # updates-starter-nuxtjs
 
 [Newt](https://www.newt.so/) を利用したアップデートノート
+技術構成：Nuxt.js, JavaScript
 
 ## 開発をはじめる
 
@@ -14,7 +15,7 @@
     - AppUIDを控えておきましょう。AppUIDは管理画面URL（ `https://newt.app/{プロジェクトUID}/app/{AppUID}` ） または App設定 > 一般 から確認できます。
 3. App設定から、Articleモデル, Categoryモデル, Authorモデルを作成します
     - Appテンプレートから作成した場合、すでにモデルが作成されているためこのステップは飛ばします
-    - スクラッチで作成した場合は、[Newtプロジェクトの構成](https://github.com/Newt-Inc/newt-updates-starter-nuxtjs#Newtプロジェクトの構成)に従ってAppとモデルを作成します
+    - スクラッチで作成した場合は、[Newtプロジェクトの構成](#Newtプロジェクトの構成)に従ってAppとモデルを作成します
 4. プロジェクト設定 > APIキー からCDN APIトークンを作成します
     - プロジェクト設定 > APIキー よりCDN APIトークンを作成します
     - 複製マークをクリックしてトークンをコピーしましょう
