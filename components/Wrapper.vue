@@ -2,6 +2,7 @@
   <div class="Wrapper">
     <Header :title="title" :icon="icon" :use-h1="useH1" />
     <slot />
+    <Footer :title="title" :icon="icon" />
     <Badge />
   </div>
 </template>
