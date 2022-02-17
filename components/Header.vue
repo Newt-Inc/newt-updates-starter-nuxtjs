@@ -2,12 +2,27 @@
   <header class="Header">
     <div class="Header_Inner">
       <NuxtLink to="/" class="Title">
-        <span v-if="icon" class="Title_Icon">{{ icon }}</span>
+        <span
+          v-if="icon && icon.type === 'emoji' && icon.value"
+          class="Title_Icon"
+          >{{ icon.value }}
+        </span>
+        <span
+          v-else-if="icon && icon.type === 'image' && icon.value"
+          class="Title_Icon"
+        >
+          <img :src="icon.value" />
+        </span>
         <h1 v-if="useH1" class="Title_Text">{{ title }}</h1>
         <div v-else class="Title_Text">{{ title }}</div>
       </NuxtLink>
       <div class="Link">
-        <a href="https://github.com/Newt-Inc/newt-updates-starter-nuxtjs" rel="noreferrer noopener" target="_blank">GitHub</a>
+        <a
+          href="https://github.com/Newt-Inc/newt-updates-starter-nuxtjs"
+          rel="noreferrer noopener"
+          target="_blank"
+          >GitHub</a
+        >
       </div>
       <div class="Search">
         <button type="button" class="Search_Button" @click="focusInput">
@@ -38,13 +53,9 @@
 <script>
 export default {
   props: {
-    title: {
-      type: String,
-      default: 'Blog',
-    },
-    icon: {
-      type: String,
-      default: '',
+    app: {
+      type: Object,
+      default: null,
     },
     useH1: {
       type: Boolean,
@@ -55,6 +66,14 @@ export default {
     return {
       searchText: this.$route.query.q || '',
     }
+  },
+  computed: {
+    title() {
+      return (this.app && (this.app.name || this.app.uid)) || 'Updates'
+    },
+    icon() {
+      return (this.app && this.app.icon) || { type: 'emoji', value: '📣' }
+    },
   },
   methods: {
     focusInput() {
@@ -106,7 +125,7 @@ export default {
   justify-content: center;
   font-size: 1.8rem;
   flex-shrink: 0;
-  margin: 0 8px -2px 0;
+  margin: 0 10px -2px 0;
 }
 .Title_Icon img {
   width: 26px;
@@ -198,7 +217,7 @@ export default {
 .Link > a {
   color: #888;
   text-decoration: none;
-  transition: color .2s;
+  transition: color 0.2s;
   padding: 3px 12px;
 }
 .Link > a:hover {

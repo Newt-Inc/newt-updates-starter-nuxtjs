@@ -1,8 +1,8 @@
 <template>
   <div class="Wrapper">
-    <Header :title="title" :icon="icon" :use-h1="useH1" />
+    <Header :app="app" :use-h1="useH1" />
     <slot />
-    <Footer :title="title" :icon="icon" />
+    <Footer :app="app" />
     <Badge />
   </div>
 </template>
@@ -17,14 +17,6 @@ export default {
     useH1: {
       type: Boolean,
       default: true,
-    },
-  },
-  computed: {
-    title() {
-      return (this.app && this.app.name) || 'Updates'
-    },
-    icon() {
-      return (this.app && this.app.icon && this.app.icon.value) || '📣'
     },
   },
 }
