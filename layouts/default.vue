@@ -1,9 +1,19 @@
 <template>
-  <Nuxt />
+  <div class="Wrapper">
+    <Header :app="app" />
+    <Nuxt />
+    <Footer :app="app" />
+    <Badge />
+  </div>
 </template>
 
 <script>
-export default {}
+import { mapGetters } from 'vuex'
+export default {
+  computed: {
+    ...mapGetters(['app']),
+  },
+}
 </script>
 
 <style>
@@ -33,5 +43,20 @@ a {
 }
 a:hover {
   text-decoration: none;
+}
+</style>
+
+<style>
+.Wrapper {
+  min-height: 100%;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+@media all and (-ms-high-contrast: none) {
+  *::-ms-backdrop,
+  .Wrapper {
+    height: 100%;
+  } /* IE11 */
 }
 </style>

@@ -1,21 +1,16 @@
 <template>
-  <Wrapper :app="app">
-    <main class="Container">
-      <Cover
-        v-if="app && app.cover && app.cover.value"
-        :img="app.cover.value"
+  <main class="Container">
+    <Cover v-if="app && app.cover && app.cover.value" :img="app.cover.value" />
+    <div class="Articles">
+      <Dropdown :categories="categories" />
+      <ArticleCard
+        v-for="article in articles"
+        :key="article._id"
+        :article="article"
       />
-      <div class="Articles">
-        <Dropdown :categories="categories" />
-        <ArticleCard
-          v-for="article in articles"
-          :key="article._id"
-          :article="article"
-        />
-        <Pagination :total="total" :current="1" />
-      </div>
-    </main>
-  </Wrapper>
+      <Pagination :total="total" :current="1" />
+    </div>
+  </main>
 </template>
 
 <script>
