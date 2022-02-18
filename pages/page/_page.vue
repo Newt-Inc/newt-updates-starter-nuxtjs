@@ -19,33 +19,32 @@
 </template>
 
 <script>
-import { getArticles } from 'api/article'
-import { getCategories } from 'api/category'
-import { getApp } from 'api/app'
+import { mapGetters } from 'vuex'
 import { getSiteName } from 'utils/head'
 
 export default {
-  async asyncData({ $config, redirect, params }) {
+  async asyncData({ $config, store, redirect, params }) {
+    await store.dispatch('fetchApp', $config)
+    await store.dispatch('fetchCategories', $config)
+
     const pageNumber = Number(params.page)
     if (Number.isNaN(pageNumber)) return redirect(302, '/')
+    await store.dispatch('fetchArticles', {
+      ...$config,
+      page: pageNumber,
+    })
 
-    const [resArticles, resCategories, app] = await Promise.all([
-      getArticles($config, { page: pageNumber }),
-      getCategories($config),
-      getApp($config),
-    ])
     return {
       pageNumber,
-      articles: resArticles.articles,
-      total: resArticles.total,
-      categories: resCategories.categories,
-      app,
     }
   },
   head() {
     return {
       title: getSiteName(this.app),
     }
+  },
+  computed: {
+    ...mapGetters(['app', 'articles', 'total', 'categories']),
   },
 }
 </script>

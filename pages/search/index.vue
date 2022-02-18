@@ -30,22 +30,17 @@
 </template>
 
 <script>
-import { getArticles } from 'api/article'
-import { getApp } from 'api/app'
+import { mapGetters } from 'vuex'
 import { toPlainText } from 'utils/markdown'
 import { getSiteName } from 'utils/head'
 
 export default {
-  async asyncData({ $config }) {
-    const app = await getApp($config)
-    return {
-      app,
-    }
+  async asyncData({ $config, store }) {
+    await store.dispatch('fetchApp', $config)
+    return {}
   },
   data() {
     return {
-      articles: [],
-      total: 0,
       isLoading: true,
     }
   },
@@ -54,8 +49,12 @@ export default {
       title: getSiteName(this.app),
     }
   },
+  computed: {
+    ...mapGetters(['app', 'articles', 'total']),
+  },
   async created() {
-    const { articles, total } = await getArticles(this.$config, {
+    await this.$store.dispatch('fetchArticles', {
+      ...this.$config,
       search: this.$route.query.q || '',
       query: {
         body: {
@@ -64,8 +63,6 @@ export default {
         limit: 100,
       },
     })
-    this.articles = articles
-    this.total = total
     this.isLoading = false
   },
   methods: {

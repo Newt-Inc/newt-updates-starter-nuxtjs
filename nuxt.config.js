@@ -6,6 +6,8 @@ export default {
     appUid: 'AppUID',
     token: 'CDN APIトークン',
     apiType: 'cdn',
+    articleModelUid: 'article',
+    categoryModelUid: 'category',
     pageLimit: 10,
   },
 

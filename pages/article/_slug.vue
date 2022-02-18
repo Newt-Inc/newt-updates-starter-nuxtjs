@@ -1,11 +1,11 @@
 <template>
   <Wrapper :app="app" :use-h1="false">
     <main class="Container">
-      <article v-if="article" class="Article">
+      <article v-if="currentArticle" class="Article">
         <div class="Article_Header">
           <ul class="Article_Tags">
             <li
-              v-for="category in article.categories"
+              v-for="category in currentArticle.categories"
               :key="category._id"
               :style="
                 category.colorCode ? `background: ${category.colorCode};` : ``
@@ -18,12 +18,16 @@
               <strong>{{ category.name }}</strong>
             </li>
           </ul>
-          <h1 class="Article_Title">{{ article.title }}</h1>
+          <h1 class="Article_Title">{{ currentArticle.title }}</h1>
           <div class="Article_Data">
             <div class="Article_Avatar">
-              <template v-if="article.author && article.author.profileImage">
+              <template
+                v-if="
+                  currentArticle.author && currentArticle.author.profileImage
+                "
+              >
                 <img
-                  :src="article.author.profileImage.src"
+                  :src="currentArticle.author.profileImage.src"
                   alt=""
                   width="32"
                   height="32"
@@ -51,50 +55,87 @@
           </div>
         </div>
         <!-- eslint-disable-next-line vue/no-v-html -->
-        <div class="Article_Body" v-html="article.body"></div>
-        <!-- <Feedback /> -->
+        <div class="Article_Body" v-html="currentArticle.body"></div>
       </article>
     </main>
   </Wrapper>
 </template>
 
 <script>
-import { getArticleBySlug } from 'api/article'
-import { getApp } from 'api/app'
+import { mapGetters } from 'vuex'
 import { formatDate } from 'utils/date'
+import { toPlainText } from '../../utils/markdown'
 
 export default {
-  async asyncData({ $config, params }) {
-    const article = await getArticleBySlug($config, params.slug)
-    const app = await getApp($config)
-    return {
-      article,
-      app,
-    }
+  async asyncData({ $config, store, params }) {
+    await store.dispatch('fetchApp', $config)
+    await store.dispatch('fetchCurrentArticle', {
+      ...$config,
+      slug: params.slug,
+    })
+    return {}
   },
   head() {
     return {
-      title: this.article.title,
+      title: this.title,
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: this.description,
+        },
+        {
+          hid: 'og:image',
+          name: 'og:image',
+          content: this.ogImage,
+        },
+      ],
     }
   },
   computed: {
+    ...mapGetters(['app', 'currentArticle']),
+    meta() {
+      if (this.currentArticle && this.currentArticle.meta) {
+        return this.currentArticle.meta
+      }
+      return null
+    },
+    title() {
+      if (this.meta && this.meta.title) {
+        return this.meta.title
+      }
+      if (this.currentArticle && this.currentArticle.title) {
+        return this.currentArticle.title
+      }
+      return this.app && (this.app.name || this.app.uid || 'Docs')
+    },
+    description() {
+      if (this.meta && this.meta.description) {
+        return this.meta.description
+      }
+      if (this.currentArticle && this.currentArticle.body) {
+        return toPlainText(this.currentArticle.body).slice(0, 200)
+      }
+      return ''
+    },
+    ogImage() {
+      if (this.meta && this.meta.ogImage) {
+        return this.meta.ogImage.src
+      }
+      return ''
+    },
     publishDate() {
-      return this.article._sys.createdAt
-        ? formatDate(this.article._sys.createdAt)
+      return this.currentArticle._sys.createdAt
+        ? formatDate(this.currentArticle._sys.createdAt)
         : ''
     },
     publishDateForAttr() {
       return this.publishDate.replace(/\//g, '-')
     },
     authorName() {
-      return (this.article.author && this.article.author.fullName) || 'NO NAME'
-    },
-    authorSelfIntroduction() {
       return (
-        (this.article.author &&
-          this.article.author.introduction &&
-          this.article.author.introduction.html) ||
-        ''
+        (this.currentArticle.author && this.currentArticle.author.fullName) ||
+        'NO NAME'
       )
     },
   },
