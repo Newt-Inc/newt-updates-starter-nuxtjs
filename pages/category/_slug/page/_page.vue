@@ -1,60 +1,54 @@
 <template>
-  <Wrapper :app="app">
-    <main class="Container">
-      <Cover
-        v-if="app && app.cover && app.cover.value"
-        :img="app.cover.value"
+  <main class="Container">
+    <Cover v-if="app && app.cover && app.cover.value" :img="app.cover.value" />
+    <div class="Articles">
+      <Dropdown :categories="categories" :selected="selected" />
+      <ArticleCard
+        v-for="article in articles"
+        :key="article._id"
+        :article="article"
       />
-      <div class="Articles">
-        <Dropdown :categories="categories" :selected="selected" />
-        <ArticleCard
-          v-for="article in articles"
-          :key="article._id"
-          :article="article"
-        />
-        <Pagination
-          :total="total"
-          :current="pageNumber"
-          :base-path="`/category/${selected}`"
-        />
-      </div>
-    </main>
-  </Wrapper>
+      <Pagination
+        :total="total"
+        :current="pageNumber"
+        :base-path="`/category/${selected}`"
+      />
+    </div>
+  </main>
 </template>
 
 <script>
-import { getArticles } from 'api/article'
-import { getCategories } from 'api/category'
-import { getApp } from 'api/app'
+import { mapGetters } from 'vuex'
 import { getSiteName } from 'utils/head'
 
 export default {
-  async asyncData({ $config, redirect, params }) {
+  async asyncData({ $config, store, redirect, params }) {
+    await store.dispatch('fetchApp', $config)
+    await store.dispatch('fetchCategories', $config)
+
     const pageNumber = Number(params.page)
     if (Number.isNaN(pageNumber)) return redirect(302, '/')
-    const { categories } = await getCategories($config)
-    const category = categories.find(
+    const category = store.getters.categories.find(
       (_category) => _category.slug === params.slug
     )
-    const { articles, total } = await getArticles($config, {
+    await store.dispatch('fetchArticles', {
+      ...$config,
       category: (category && category._id) || '',
       page: pageNumber,
     })
-    const app = await getApp($config)
 
     return {
-      articles,
-      total,
-      categories,
       selected: params.slug || '',
       pageNumber,
-      app,
     }
   },
   head() {
     return {
       title: getSiteName(this.app),
     }
+  },
+  computed: {
+    ...mapGetters(['app', 'articles', 'total', 'categories']),
   },
 }
 </script>

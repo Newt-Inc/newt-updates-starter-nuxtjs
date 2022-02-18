@@ -1,56 +1,50 @@
 <template>
-  <Wrapper :app="app">
-    <main class="Container">
-      <Cover
-        v-if="app && app.cover && app.cover.value"
-        :img="app.cover.value"
+  <main class="Container">
+    <Cover v-if="app && app.cover && app.cover.value" :img="app.cover.value" />
+    <div class="Articles">
+      <Dropdown :categories="categories" :selected="selected" />
+      <ArticleCard
+        v-for="article in articles"
+        :key="article._id"
+        :article="article"
       />
-      <div class="Articles">
-        <Dropdown :categories="categories" :selected="selected" />
-        <ArticleCard
-          v-for="article in articles"
-          :key="article._id"
-          :article="article"
-        />
-        <Pagination
-          :total="total"
-          :current="1"
-          :base-path="`/category/${selected}`"
-        />
-      </div>
-    </main>
-  </Wrapper>
+      <Pagination
+        :total="total"
+        :current="1"
+        :base-path="`/category/${selected}`"
+      />
+    </div>
+  </main>
 </template>
 
 <script>
-import { getArticles } from 'api/article'
-import { getCategories } from 'api/category'
-import { getApp } from 'api/app'
+import { mapGetters } from 'vuex'
 import { getSiteName } from 'utils/head'
 
 export default {
-  async asyncData({ $config, params }) {
-    const { categories } = await getCategories($config)
-    const category = categories.find(
+  async asyncData({ $config, store, params }) {
+    await store.dispatch('fetchApp', $config)
+    await store.dispatch('fetchCategories', $config)
+
+    const category = store.getters.categories.find(
       (_category) => _category.slug === params.slug
     )
-    const { articles, total } = await getArticles($config, {
+    await store.dispatch('fetchArticles', {
+      ...$config,
       category: (category && category._id) || '',
     })
-    const app = await getApp($config)
 
     return {
-      articles,
-      total,
-      categories,
       selected: params.slug || '',
-      app,
     }
   },
   head() {
     return {
       title: getSiteName(this.app),
     }
+  },
+  computed: {
+    ...mapGetters(['app', 'articles', 'total', 'categories']),
   },
 }
 </script>

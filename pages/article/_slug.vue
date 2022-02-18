@@ -1,100 +1,137 @@
 <template>
-  <Wrapper :app="app" :use-h1="false">
-    <main class="Container">
-      <article v-if="article" class="Article">
-        <div class="Article_Header">
-          <ul class="Article_Tags">
-            <li
-              v-for="category in article.categories"
-              :key="category._id"
-              :style="
-                category.colorCode ? `background: ${category.colorCode};` : ``
-              "
-              class="Article_Tag _color3"
+  <main class="Container">
+    <article v-if="currentArticle" class="Article">
+      <div class="Article_Header">
+        <ul class="Article_Tags">
+          <li
+            v-for="category in currentArticle.categories"
+            :key="category._id"
+            :style="
+              category.colorCode ? `background: ${category.colorCode};` : ``
+            "
+            class="Article_Tag _color3"
+          >
+            <span v-if="category.emoji && category.emoji.value">{{
+              category.emoji.value
+            }}</span>
+            <strong>{{ category.name }}</strong>
+          </li>
+        </ul>
+        <h1 class="Article_Title">{{ currentArticle.title }}</h1>
+        <div class="Article_Data">
+          <div class="Article_Avatar">
+            <template
+              v-if="currentArticle.author && currentArticle.author.profileImage"
             >
-              <span v-if="category.emoji && category.emoji.value">{{
-                category.emoji.value
-              }}</span>
-              <strong>{{ category.name }}</strong>
-            </li>
-          </ul>
-          <h1 class="Article_Title">{{ article.title }}</h1>
-          <div class="Article_Data">
-            <div class="Article_Avatar">
-              <template v-if="article.author && article.author.profileImage">
-                <img
-                  :src="article.author.profileImage.src"
-                  alt=""
-                  width="32"
-                  height="32"
+              <img
+                :src="currentArticle.author.profileImage.src"
+                alt=""
+                width="32"
+                height="32"
+              />
+            </template>
+            <template v-else>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20px"
+                height="20px"
+                viewBox="0 0 24 24"
+                fill="#CCCCCC"
+              >
+                <path d="M0 0h24v24H0V0z" fill="none" />
+                <path
+                  d="M12 6c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2m0 10c2.7 0 5.8 1.29 6 2H6c.23-.72 3.31-2 6-2m0-12C9.79 4 8 5.79 8 8s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 10c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
                 />
-              </template>
-              <template v-else>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20px"
-                  height="20px"
-                  viewBox="0 0 24 24"
-                  fill="#CCCCCC"
-                >
-                  <path d="M0 0h24v24H0V0z" fill="none" />
-                  <path
-                    d="M12 6c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2m0 10c2.7 0 5.8 1.29 6 2H6c.23-.72 3.31-2 6-2m0-12C9.79 4 8 5.79 8 8s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4zm0 10c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
-                  />
-                </svg>
-              </template>
-            </div>
-            <div class="Article_AuthorName">{{ authorName }}</div>
-            <time :datetime="publishDateForAttr" class="Article_Date">{{
-              publishDate
-            }}</time>
+              </svg>
+            </template>
           </div>
+          <div class="Article_AuthorName">{{ authorName }}</div>
+          <time :datetime="publishDateForAttr" class="Article_Date">{{
+            publishDate
+          }}</time>
         </div>
-        <!-- eslint-disable-next-line vue/no-v-html -->
-        <div class="Article_Body" v-html="article.body"></div>
-        <!-- <Feedback /> -->
-      </article>
-    </main>
-  </Wrapper>
+      </div>
+      <!-- eslint-disable-next-line vue/no-v-html -->
+      <div class="Article_Body" v-html="currentArticle.body"></div>
+    </article>
+  </main>
 </template>
 
 <script>
-import { getArticleBySlug } from 'api/article'
-import { getApp } from 'api/app'
+import { mapGetters } from 'vuex'
 import { formatDate } from 'utils/date'
+import { toPlainText } from '../../utils/markdown'
 
 export default {
-  async asyncData({ $config, params }) {
-    const article = await getArticleBySlug($config, params.slug)
-    const app = await getApp($config)
-    return {
-      article,
-      app,
-    }
+  async asyncData({ $config, store, params }) {
+    await store.dispatch('fetchApp', $config)
+    await store.dispatch('fetchCurrentArticle', {
+      ...$config,
+      slug: params.slug,
+    })
+    return {}
   },
   head() {
     return {
-      title: this.article.title,
+      title: this.title,
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: this.description,
+        },
+        {
+          hid: 'og:image',
+          name: 'og:image',
+          content: this.ogImage,
+        },
+      ],
     }
   },
   computed: {
+    ...mapGetters(['app', 'currentArticle']),
+    meta() {
+      if (this.currentArticle && this.currentArticle.meta) {
+        return this.currentArticle.meta
+      }
+      return null
+    },
+    title() {
+      if (this.meta && this.meta.title) {
+        return this.meta.title
+      }
+      if (this.currentArticle && this.currentArticle.title) {
+        return this.currentArticle.title
+      }
+      return this.app && (this.app.name || this.app.uid || 'Docs')
+    },
+    description() {
+      if (this.meta && this.meta.description) {
+        return this.meta.description
+      }
+      if (this.currentArticle && this.currentArticle.body) {
+        return toPlainText(this.currentArticle.body).slice(0, 200)
+      }
+      return ''
+    },
+    ogImage() {
+      if (this.meta && this.meta.ogImage) {
+        return this.meta.ogImage.src
+      }
+      return ''
+    },
     publishDate() {
-      return this.article._sys.createdAt
-        ? formatDate(this.article._sys.createdAt)
+      return this.currentArticle._sys.createdAt
+        ? formatDate(this.currentArticle._sys.createdAt)
         : ''
     },
     publishDateForAttr() {
       return this.publishDate.replace(/\//g, '-')
     },
     authorName() {
-      return (this.article.author && this.article.author.fullName) || 'NO NAME'
-    },
-    authorSelfIntroduction() {
       return (
-        (this.article.author &&
-          this.article.author.introduction &&
-          this.article.author.introduction.html) ||
-        ''
+        (this.currentArticle.author && this.currentArticle.author.fullName) ||
+        'NO NAME'
       )
     },
   },

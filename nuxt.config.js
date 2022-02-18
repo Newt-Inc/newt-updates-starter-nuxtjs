@@ -6,6 +6,8 @@ export default {
     appUid: process.env.APP_UID,
     token: process.env.API_TOKEN,
     apiType: 'cdn',
+    articleModelUid: 'article',
+    categoryModelUid: 'category',
     pageLimit: 10,
   },
 

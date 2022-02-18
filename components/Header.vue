@@ -13,8 +13,7 @@
         >
           <img :src="icon.value" />
         </span>
-        <h1 v-if="useH1" class="Title_Text">{{ title }}</h1>
-        <div v-else class="Title_Text">{{ title }}</div>
+        <div class="Title_Text">{{ title }}</div>
       </NuxtLink>
       <div class="Link">
         <a
@@ -56,10 +55,6 @@ export default {
     app: {
       type: Object,
       default: null,
-    },
-    useH1: {
-      type: Boolean,
-      default: true,
     },
   },
   data() {
