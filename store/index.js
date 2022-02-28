@@ -35,10 +35,10 @@ export const mutations = {
 }
 
 export const actions = {
-  async fetchApp({ commit }, { projectUid, token, apiType, appUid }) {
+  async fetchApp({ commit }, { spaceUid, token, apiType, appUid }) {
     try {
       const client = createClient({
-        projectUid,
+        spaceUid,
         token,
         apiType,
       })
@@ -53,7 +53,7 @@ export const actions = {
   async fetchArticles(
     { commit },
     {
-      projectUid,
+      spaceUid,
       articleModelUid,
       token,
       apiType,
@@ -67,7 +67,7 @@ export const actions = {
   ) {
     try {
       const client = createClient({
-        projectUid,
+        spaceUid,
         token,
         apiType,
       })
@@ -113,11 +113,11 @@ export const actions = {
   },
   async fetchCategories(
     { commit },
-    { projectUid, categoryModelUid, token, apiType, appUid }
+    { spaceUid, categoryModelUid, token, apiType, appUid }
   ) {
     try {
       const client = createClient({
-        projectUid,
+        spaceUid,
         token,
         apiType,
       })
@@ -135,12 +135,12 @@ export const actions = {
   },
   async fetchCurrentArticle(
     { commit },
-    { projectUid, articleModelUid, token, apiType, appUid, slug }
+    { spaceUid, articleModelUid, token, apiType, appUid, slug }
   ) {
     try {
       if (!slug) return commit('setCurrentArticle', null)
       const client = createClient({
-        projectUid,
+        spaceUid,
         token,
         apiType,
       })
