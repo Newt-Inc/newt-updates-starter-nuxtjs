@@ -105,3 +105,5 @@ $ yarn start
 | fullName | 名前 | テキスト | 必須フィールド, このフィールドをタイトルに使う |
 | profileImage | スラッグ | 画像 |  |
 | introduction | 自己紹介 | Markdown or リッチテキスト |  |
+
+Deploy
