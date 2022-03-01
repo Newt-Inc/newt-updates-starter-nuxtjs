@@ -83,37 +83,37 @@ $ yarn start
 
 ## Newtスペースの構成
 
-`Blog` appの中にArticle, Category, Authorの3つのモデルを作ります。
+`Updates` appの中にArticle, Category, Authorの3つのモデルを作ります。
 
 | App名（任意） | モデル名（モデルUID） |
 | --- | --- |
-| Blog | Article (`article`) |
+| Updates | Article (`article`) |
 |  | Category (`category`) |
 |  | Author (`author`) |
 
 ### Article（`uid: article`）モデル
 
-| フィールドID | フィールド名 | フィールドID	フィールド名 | フィールドID	フィールド名 |
+| フィールドID | フィールド名 | フィールドタイプ | オプション |
 | --- | --- | --- | --- |
 | title | タイトル | テキスト | 必須フィールド, このフィールドをタイトルに使う |
 | slug | スラッグ | テキスト | 必須フィールド |
 | coverImage | カバー画像 | 画像 |  |
 | body | 本文 | Markdown or リッチテキスト |  |
-| category | カテゴリ | 参照（Categoryモデル） | 複数値 |
+| categories | カテゴリ | 参照（Categoryモデル） | 複数値 |
 | author | 著者 | 参照（Authorモデル） |  |
 
 ### Category（`uid: category`）モデル
 
-| フィールドID | フィールド名 | フィールドID	フィールド名 | フィールドID	フィールド名 |
+| フィールドID | フィールド名 | フィールドタイプ | オプション |
 | --- | --- | --- | --- |
 | name | 名前 | テキスト | 必須フィールド, このフィールドをタイトルに使う |
 | slug | スラッグ | テキスト | 必須フィールド |
-| emoji | スラッグ | テキスト |  |
-| colorCode | スラッグ | テキスト |  |
+| emoji | 絵文字 | 絵文字 |  |
+| colorCode | 色コード | カラー |  |
 
 ### Author（`uid: author`）モデル
 
-| フィールドID | フィールド名 | フィールドID	フィールド名 | フィールドID	フィールド名 |
+| フィールドID | フィールド名 | フィールドタイプ | オプション名 |
 | --- | --- | --- | --- |
 | fullName | 名前 | テキスト | 必須フィールド, このフィールドをタイトルに使う |
 | profileImage | スラッグ | 画像 |  |

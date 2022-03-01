@@ -9,7 +9,7 @@
             :style="
               category.colorCode ? `background: ${category.colorCode};` : ``
             "
-            class="Article_Tag _color3"
+            class="Article_Tag"
           >
             <span v-if="category.emoji && category.emoji.value">{{
               category.emoji.value
