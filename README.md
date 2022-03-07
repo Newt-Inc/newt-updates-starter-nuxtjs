@@ -97,6 +97,7 @@ $ yarn start
 | --- | --- | --- | --- |
 | title | タイトル | テキスト | 必須フィールド, このフィールドをタイトルに使う |
 | slug | スラッグ | テキスト | 必須フィールド |
+| meta | メタ情報 | カスタムフィールド | |
 | coverImage | カバー画像 | 画像 |  |
 | body | 本文 | Markdown or リッチテキスト |  |
 | categories | カテゴリ | 参照（Categoryモデル） | 複数値 |
@@ -117,4 +118,12 @@ $ yarn start
 | --- | --- | --- | --- |
 | fullName | 名前 | テキスト | 必須フィールド, このフィールドをタイトルに使う |
 | profileImage | スラッグ | 画像 |  |
-| introduction | 自己紹介 | Markdown or リッチテキスト |  |
+| biography | 自己紹介 | Markdown or リッチテキスト |  |
+
+### メタ情報（`id: META`）カスタムフィールドタイプ
+
+| フィールドID | フィールド名 | フィールドタイプ | オプション |
+| --- | --- | --- | --- |
+| title | Title | テキスト | |
+| description | Description | テキスト | |
+| ogImage | OG画像 | 画像 |  |
