@@ -144,16 +144,15 @@ export const actions = {
         token,
         apiType,
       })
-      const { items } = await client.getContents({
+      const article = await client.getFirstContent({
         appUid,
         modelUid: articleModelUid,
         query: {
           depth: 2,
-          limit: 1,
           slug,
         },
       })
-      commit('setCurrentArticle', items.length === 1 ? items[0] : null)
+      commit('setCurrentArticle', article)
     } catch (err) {
       return null
     }
